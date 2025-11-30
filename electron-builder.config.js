@@ -7,6 +7,7 @@ module.exports = {
   win: {
     icon: "assets/icon/logo.ico",
     target: "nsis",
+    artifactName: "test-windows-x64-installer.exe",
     // 禁用代码签名
     signingHashAlgorithms: []
   },
@@ -17,6 +18,7 @@ module.exports = {
   mac: {
     icon: "assets/icon/logo.icns",
     target: "dmg",
+    artifactName: "test-macos-apple.dmg",
     category: "public.app-category.utilities"
   },
   dmg: {

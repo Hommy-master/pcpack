@@ -50,34 +50,11 @@ jobs:
           ls dist/
         shell: bash
           
-      - name: 压缩应用程序文件
-        run: |
-          # 跨平台压缩文件
-          cd dist && (tar -czvf ../${{ matrix.artifact_name }}-app.tar.gz ./test-* 2>/dev/null || 7z a -tzip ../${{ matrix.artifact_name }}-app.zip ./test-* 2>$null) && cd - || (cd .. && echo "压缩完成")
-        shell: bash
-          
-      - name: 压缩安装包文件
-        run: |
-          # 跨平台压缩安装包文件
-          cd dist && (tar -czvf ../${{ matrix.artifact_name }}-installer.tar.gz ./*.exe ./*.dmg ./*.blockmap ./latest.yml 2>/dev/null || 7z a -tzip ../${{ matrix.artifact_name }}-installer.zip ./*.exe ./*.dmg ./*.blockmap ./latest.yml 2>$null) && cd - || (cd .. && echo "安装包压缩完成")
-        shell: bash
-          
-      - name: 上传应用程序构件
-        uses: actions/upload-artifact@v4
-        with:
-          name: ${{ matrix.artifact_name }}-app
-          path: |
-            ${{ matrix.artifact_name }}-app.tar.gz
-            ${{ matrix.artifact_name }}-app.zip
-          if-no-files-found: ignore
-          
       - name: 上传安装包构件
         uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.artifact_name }}-installer
-          path: |
-            ${{ matrix.artifact_name }}-installer.tar.gz
-            ${{ matrix.artifact_name }}-installer.zip
+          path: dist/
           if-no-files-found: ignore
 
       - name: 发布版本
@@ -87,10 +64,8 @@ jobs:
           tag_name: ${{ github.ref_name }}
           name: Release ${{ github.ref_name }}
           files: |
-            ${{ matrix.artifact_name }}-app.tar.gz
-            ${{ matrix.artifact_name }}-app.zip
-            ${{ matrix.artifact_name }}-installer.tar.gz
-            ${{ matrix.artifact_name }}-installer.zip
+            dist/test-windows-x64-installer.exe
+            dist/test-macos-apple.dmg
           overwrite: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
