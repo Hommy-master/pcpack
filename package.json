@@ -1,5 +1,5 @@
 {
-  "name": "electron-test-app",
+  "name": "test",
   "version": "1.0.0",
   "description": "A minimal Electron test application",
   "main": "main.js",
@@ -8,7 +8,8 @@
   "scripts": {
     "start": "electron .",
     "dev": "electron .",
-    "pack": "electron-packager . --platform=win32 --arch=x64 --out=dist/packaged-new-with-icon --overwrite --icon=assets/icon/logo.ico"
+    "build-win": "electron-packager . --platform=win32 --arch=x64 --out=dist --overwrite --icon=assets/icon/logo.ico",
+    "build-mac": "electron-packager . --platform=darwin --arch=x64 --out=dist --overwrite --icon=assets/icon/logo.icns"
   },
   "devDependencies": {
     "electron": "31.7.6",
@@ -18,12 +19,18 @@
     "appId": "com.example.electrontest",
     "productName": "Electron Test App",
     "directories": {
-      "output": "dist/packaged-new-with-icon"
+      "output": "dist"
     },
     "win": {
       "icon": "assets/icon/logo.ico",
       "target": [
         "nsis"
+      ]
+    },
+    "mac": {
+      "icon": "assets/icon/logo.icns",
+      "target": [
+        "dmg"
       ]
     }
   }
